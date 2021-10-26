@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <link rel="stylesheet" type="text/css" href="../static/css/styles.css"> -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/css/new_style.css">
+
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row">
+				<div class="well well-lg">
+					<h1>සෙවුම් යන්ත්‍රය - ශ්‍රී ලංකා පාර්ලිමේන්තු මන්ත්‍රීවරු</h1>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<form action="{{ url_for('predictTokens')}}" method="POST">
+						<div class="form-group">
+							<label for="message">ඔබගේ සෙවුම් විමසුම ඇතුලත් කරන්න</label>
+							<br><br>
+							<input rows="10"  type="text" name="message" class="form-control" id="message" placeholder="විමසුම ඇතුලත් කරන්න"></input>
+							<br>
+							<input type="checkbox" id="biography" name="biography" value="biography">
+							<label for="biography">සෙවීමේදී චරිතාපදානය ඇතුළත් කරන්න </label><br>
+						</div>
+						<button type="submit" class="btn btn-primary">සොයන්න</button>
+					</form>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="page-header" style="margin-top: 0px !important">
+						<h3>ප්‍රතිඵල</h3>         
+					</div>
+					<div>
+						{% if res == None %}
+							<h5> ප්‍රතිඵල මෙහි දිස්වනු ඇත. </h5>
+						{% else %}
+							<p>විමසුම: '<b>{{ message }}</b>' <br></p>
+							{% for i in res %}
+								<p>{{ i }}</p>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	
+
+</body>
+</html>
