@@ -11,3 +11,13 @@ body
     background-color: white;
     height: fit-content;
 }
+
+.score
+{
+    font-size: 10px;
+}
+
+.bio
+{
+    font-size: 15px;
+}

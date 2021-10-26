@@ -3,12 +3,13 @@ import re
 from lists import stop_words, synonym_list, syn_popularity, times, gte, lte, all_lists, fields_ori, names
 from elasticsearch import Elasticsearch, helpers
 import queries
+from helper import calSimilarity_words
 
 client = Elasticsearch(HOST="http://localhost",PORT=9200)
 INDEX = 'index-ministers'
 
 def stemmer(word):
-    stem_dict = {"ගේ$":"","^(සිටි||හිටි).$":"සිටි","ට$":""}
+    stem_dict = {"ගේ$":"","^(සිටි||හිටි).$":"සිටි"}
     for k in stem_dict:
       stemmed = re.sub(k,stem_dict[k],word)
     return stemmed
@@ -46,12 +47,16 @@ def searchByName(tokens):
   return False
 
 def search_bio(phrase):
-    flags = [0, 0, 0, 0, 0, 0, 5]
+    flags = [0, 1, 1, 1, 1, 1, 5]
     fields = boost(flags)
     query_body = queries.agg_multi_match_q(phrase, fields)
     print('Making Faceted Query')
     res = client.search(index=INDEX, body=query_body)
-    # res = "biography search"
+    resl = res['hits']['hits']
+    outputl = []
+    for hit in resl:
+      outputl.append([hit['_source']['name'],hit['_source']['biography'],hit['_score']])
+    res = outputl 
     return res
 
 def search(phrase):
@@ -108,17 +113,20 @@ def search(phrase):
                   op = 'lte'
     else:
       # Identify numbers
-      for word in tokens:
-          
+      for w in range(len(tokens)):
+          word = tokens[w]
 
           # Check whether a value from any list is present
           for i in range(len(all_lists)):
               l =  all_lists[i]
               for term in l:
-                if word in term.split():
-                  print('Boosting field',i+2,'for',word,'in all list')
-                  flags[i+2] = 5
-                  break
+                ts = term.split()
+                for j in range(len(ts)):
+                  if calSimilarity_words(word, ts[j]):
+                    tokens[w] = ts[j]
+                    print('Boosting field',i+2,'for',word,ts[j],'in all list')
+                    flags[i+2] = 5
+                    
 
           # Check whether token matches any synonyms
           for i in range(4):
@@ -136,7 +144,7 @@ def search(phrase):
     print(processed_phrase, fields, search_list)
 
     # If the query contain a number call sort query
-    phrase = processed_phrase
+    phrase = " ".join(tokens)
     if flags[1] == 5:
         required_field = fields_ori[search_list.index(1)]
         print("exact match with "+required_field)
@@ -175,7 +183,7 @@ def search(phrase):
         resl = res['hits']['hits']
         outputl = []
         for hit in resl:
-            outputl.append(hit['_source']['name'])
+            outputl.append([hit['_source']['name'],hit['_score']])
         res = outputl 
     print(res)
     return res
