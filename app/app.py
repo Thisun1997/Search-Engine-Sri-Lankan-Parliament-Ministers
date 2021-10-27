@@ -5,12 +5,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('home.html',res = None, len=None, message = None)
+    return render_template('home.html',res = None, len=None, num_results=None, message = None)
 
 @app.route('/predictTokens',methods=['POST'])
 def predictTokens():
     if request.method == 'POST':
         message = request.form['message']
+        num_results = 0
         if request.form.get('biography'):
             res = search_bio(message)
             if (len(res) == 0):
@@ -18,6 +19,7 @@ def predictTokens():
                 length = 0
             elif isinstance(res[0],list):
                 length = len(res[0])
+                num_results = len(res)
         else:
             res = search(message)
             if (len(res) == 0):
@@ -25,10 +27,12 @@ def predictTokens():
                 length = 0
             elif isinstance(res[0],list):
                 length = len(res[0])
+                num_results = len(res)
             else:
                 length = 1
+                num_results = len(res)
         # tokens = []
-    return render_template('home.html', res = res, len = length, message = message)
+    return render_template('home.html', res = res, len = length, num_results = num_results, message = message)
 
 
 if __name__ == '__main__':

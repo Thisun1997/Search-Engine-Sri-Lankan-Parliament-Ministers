@@ -26,13 +26,13 @@ def calSimilarity(search):
             search_val.append(name_terms[i])
     return search_val
 
-def calSimilarity_words(w1,w2):
+def calSimilarity_words(w1,w2,thr=0.7):
     documents = [w1,w2]
     tfidf_vectorizer = TfidfVectorizer(analyzer="char", token_pattern=u'(?u)\\b\w+\\b')
     tfidf_matrix = tfidf_vectorizer.fit_transform(documents)
 
     cs = cosine_similarity(tfidf_matrix[0],tfidf_matrix[1])
-    if cs[0] > 0.7:
+    if cs[0] > thr:
         return True
     else:
         return False

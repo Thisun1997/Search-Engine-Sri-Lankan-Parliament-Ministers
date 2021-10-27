@@ -1,6 +1,6 @@
 # PROCESSING
 import re
-from lists import stop_words, synonym_list, syn_popularity, times, gte, lte, all_lists, fields_ori, names
+from lists import stop_words, synonym_list, syn_popularity, times, gte, lte, all_lists, fields_ori, names, bio_list
 from elasticsearch import Elasticsearch, helpers
 import queries
 from helper import calSimilarity_words
@@ -10,8 +10,9 @@ INDEX = 'index-ministers'
 
 def stemmer(word):
     stem_dict = {"ගේ$":"","^(සිටි||හිටි).$":"සිටි"}
+    stemmed = word
     for k in stem_dict:
-      stemmed = re.sub(k,stem_dict[k],word)
+      stemmed = re.sub(k,stem_dict[k],stemmed)
     return stemmed
 
 def preprocess(phrase):
@@ -39,17 +40,32 @@ def boost(boost_array):
     return [name, position, party, district, related_subjects, biography]
 
 def searchByName(tokens):
-  for token in tokens:
+  c = 0
+  for t in range(len(tokens)):
+    token = tokens[t]
     for name in names:
-      if token in name.split():
-          print(token)
-          return True
-  return False
+      namel = name.split()
+      for i in range(len(namel)):
+        if calSimilarity_words(token, namel[i], 0.8) and abs(len(token)-len(namel[i])) <= 1:
+            tokens.append(namel[i])
+            c = 1
+            print(token, namel[i])
+  if c:
+    return True
+  else:
+    return False
 
 def search_bio(phrase):
     flags = [0, 1, 1, 1, 1, 1, 5]
     fields = boost(flags)
-    query_body = queries.agg_multi_match_q(phrase, fields)
+    tokens = phrase.split()
+    for t in range(len(tokens)):
+      token = tokens[t]
+      for p in bio_list:
+        if calSimilarity_words(token, p, 0.8):
+          tokens.append(p)
+    phrase = " ".join(tokens)
+    query_body = queries.agg_multi_match_q(phrase, fields, operator='or')
     print('Making Faceted Query')
     res = client.search(index=INDEX, body=query_body)
     resl = res['hits']['hits']
@@ -80,7 +96,6 @@ def search(phrase):
 
     num=0
     processed_phrase = preprocess(phrase)
-    print(processed_phrase)
     tokens = processed_phrase.split()
     search_by_name = searchByName(tokens)
     containsDigit = bool(re.search(r'\d', processed_phrase))
@@ -113,6 +128,7 @@ def search(phrase):
                   op = 'lte'
     else:
       # Identify numbers
+      search_terms = []
       for w in range(len(tokens)):
           word = tokens[w]
 
@@ -123,7 +139,8 @@ def search(phrase):
                 ts = term.split()
                 for j in range(len(ts)):
                   if calSimilarity_words(word, ts[j]):
-                    tokens[w] = ts[j]
+                    # tokens[w] = ts[j]
+                    search_terms.append(ts[j])
                     print('Boosting field',i+2,'for',word,ts[j],'in all list')
                     flags[i+2] = 5
                     
@@ -139,7 +156,8 @@ def search(phrase):
           #     if phrase in all_lists[i]:
           #         print('Boosting field', i, 'for', phrase, 'in all list')
           #         flags[i] = 5
-                  
+      tokens = search_terms
+
     fields = boost(flags)
     print(processed_phrase, fields, search_list)
 
@@ -150,7 +168,16 @@ def search(phrase):
         print("exact match with "+required_field)
         query_body = queries.exact_match(phrase, required_field)
         res = client.search(index=INDEX, body=query_body)
-        res = res['hits']['hits'][0]["fields"][required_field]
+        resl = res['hits']['hits']
+        outputl = []
+        for hit in resl:
+          ansl = hit["fields"][required_field]
+          if (len(ansl) > 1):
+            out = " ; ".join(ansl)
+          else:
+            out = ansl[0]
+          outputl.append([hit['_source']['name']+" - "+ str(out),hit['_score']])
+        res = outputl 
     elif flags[0] == 1:
         if popularity:
           print('Making Range Query for popularity')
@@ -159,7 +186,7 @@ def search(phrase):
           resl = res['hits']['hits']
           outputl = []
           for hit in resl:
-              outputl.append(hit['_source']['name'])
+              outputl.append(str(hit['_source']['overall_rank'])+ " - " +hit['_source']['name'])
           res = outputl   
         elif participation:
           if op != "eql":
@@ -174,7 +201,7 @@ def search(phrase):
           resl = res['hits']['hits']
           outputl = []
           for hit in resl:
-              outputl.append(hit['_source']['name'])
+              outputl.append(hit['_source']['name']+" ("+ str(hit['_source']['participated_in_parliament']) +" වතාවක්)")
           res = outputl 
     else:
         print('Making Faceted Query')

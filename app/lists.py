@@ -296,7 +296,7 @@ syn_position = ["තනතුර", "ධුර", "ධුරය", "නිලය", 
 syn_party = ["කණ්ඩායම", "පක්ෂය", "පාර්ශ්වය", "කණ්ඩායම"]
 syn_districts = ["දිස්ත්‍රික්කය","පළාත", "ප්‍රදේශය"]
 syn_contact = ["සම්බන්ධ", "දුරකථන" ,"අංකය"]
-syn_participation = ["නියෝජනය", "සිටි"]
+syn_participation = ["නියෝජනය", "සිටි", "සහභාගි", "වාර", " ගණන"]
 synonym_list = [syn_position, syn_party, syn_districts, syn_rel_subjects, syn_contact, syn_participation]
 
 fields_ori = ["position","party","district","related_subjects","contact_information","participated_in_parliament"]
@@ -304,5 +304,8 @@ fields_ori = ["position","party","district","related_subjects","contact_informat
 syn_popularity=['හොඳම','ජනප්‍රිය','ප්‍රචලිත','ප්‍රසිද්ධ','හොදම','ජනප්‍රියම']
 gte = ["වැඩි","වැඩිය","වැඩිපුර","වැඩියෙන්"]
 lte = ["අඩුවෙන්","අඩු"]
-times = ["වතාවකට","වරක්","වතාවක්","පාරක්","පාරකට"] + gte + lte
+times = ["වතාවකට","වරක්","වතාවක්","පාරක්","පාරකට","වතාවක","වරක","පාරක"] + gte + lte
+
+bio_list = ["පක්ෂයද",  "කොංග්‍රසයද", "බලවේගයද", "කූටිටනිද", "කොංග්‍රසයද", "පෙරමුණද", "කච්චිද", "පුළිකල්ද", "සන්ධානයද",]
+
 stop_words = ['මහතා','මහත්මිය','කර', 'ගත', 'හැකි', 'මන්ත්රීවරු', 'කරන','නියෝජනය','කළ']

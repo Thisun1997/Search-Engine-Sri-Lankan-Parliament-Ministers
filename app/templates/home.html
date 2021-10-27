@@ -44,10 +44,12 @@
 						{% if res == None %}
 							<h5> ප්‍රතිඵල මෙහි දිස්වනු ඇත. </h5>
 						{% else %}
-							<p>විමසුම: '<b>{{ message }}</b>' <br></p>
+							<p class="bio">විමසුම: '<b>{{ message }}</b>' <br></p>
+							<p class="bio">ප්‍රතිඵල {{ num_results }} හමුවිය</p>
+							<br>
 							{% for i in res %}
 								{% if len == 2 %}
-									<p>{{ i[0] }} - {{ i[1] }}</p>
+									<p>{{ i[0] }} ({{ i[1] }})</p>
 								{% elif len == 3 %}
 									<p><b>{{ i[0] }}</b></p>
 									<p class="bio">{{ i[1] }}</p>

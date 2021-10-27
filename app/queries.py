@@ -2,7 +2,7 @@
 import json
 from helper import calSimilarity
 
-def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='or'):
+def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='and'):
 	q = {
 		"size": 500,
 		"explain": True,
@@ -93,6 +93,7 @@ def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'],c
         }
 	else:
 		q = {
+		"size":500,
         "query": {
             "range": {
             "participated_in_parliament": {
@@ -100,39 +101,13 @@ def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'],c
             }
             }
         },
-        "aggs":aggs
+        # "aggs":aggs
         }
 	q = json.dumps(q)
 	print(q)
 	return q
 
 def exact_match(query, required_field, search_val=None):
-    aggs = {
-			"Position Filter": {
-				"terms": {
-					"field": "position.keyword",
-					"size": 10
-				}
-			},
-			"Party Filter": {
-				"terms": {
-					"field": "party.keyword",
-					"size": 10
-				}
-			},
-			"District Filter": {
-				"terms": {
-					"field": "district.keyword",
-					"size": 10
-				}
-			},
-			"Related Subjects Filter": {
-				"terms": {
-					"field": "related_subjects.keyword",
-					"size": 10
-				}
-			}
-		}
     if search_val:
         q = {
             "size": 500,
@@ -142,7 +117,6 @@ def exact_match(query, required_field, search_val=None):
                     "participated_in_parliament": search_val
                 }
             },
-            "aggs":aggs
         }
     else:
         search_val = " ".join(calSimilarity(query))
