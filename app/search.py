@@ -49,7 +49,6 @@ def searchByName(tokens):
         if calSimilarity_words(token, namel[i], 0.8) and abs(len(token)-len(namel[i])) <= 1:
             tokens.append(namel[i])
             c = 1
-            print(token, namel[i])
   if c:
     return True
   else:
@@ -98,6 +97,7 @@ def search(phrase):
     processed_phrase = preprocess(phrase)
     tokens = processed_phrase.split()
     search_by_name = searchByName(tokens)
+    tokens = list(set(tokens))
     containsDigit = bool(re.search(r'\d', processed_phrase))
 
     if search_by_name:
@@ -159,25 +159,43 @@ def search(phrase):
       tokens = search_terms
 
     fields = boost(flags)
-    print(processed_phrase, fields, search_list)
 
     # If the query contain a number call sort query
     phrase = " ".join(tokens)
+    print(phrase, fields, search_list)
+
     if flags[1] == 5:
-        required_field = fields_ori[search_list.index(1)]
-        print("exact match with "+required_field)
-        query_body = queries.exact_match(phrase, required_field)
-        res = client.search(index=INDEX, body=query_body)
-        resl = res['hits']['hits']
-        outputl = []
-        for hit in resl:
-          ansl = hit["fields"][required_field]
-          if (len(ansl) > 1):
-            out = " ; ".join(ansl)
-          else:
-            out = ansl[0]
-          outputl.append([hit['_source']['name']+" - "+ str(out),hit['_score']])
-        res = outputl 
+        if search_list.count(1) > 0:
+            required_field = fields_ori[search_list.index(1)]
+            print("exact match with "+required_field)
+            query_body = queries.exact_match(phrase, required_field)
+            res = client.search(index=INDEX, body=query_body)
+            resl = res['hits']['hits']
+            outputl = []
+            for hit in resl:
+              ansl = hit["fields"][required_field]
+              if (len(ansl) > 1):
+                out = " ; ".join(ansl)
+              else:
+                out = ansl[0]
+              outputl.append([hit['_source']['name']+" - "+ str(out),hit['_score']])
+            res = outputl 
+        else:
+            query_body = queries.exact_match(phrase)
+            res = client.search(index=INDEX, body=query_body)
+            resl = res['hits']['hits']
+            outputl = []
+            for hit in resl:
+              minister = hit['_source']
+              name = minister["name"]
+              position = minister["position"]
+              party = minister["party"]
+              district = minister["district"]
+              contact = ";".join(minister["contact_information"])
+              related_subjects = ";".join(minister["related_subjects"])
+              biography = minister["biography"]
+              outputl.append([name, position, party, district, contact, related_subjects, biography])
+            res = outputl
     elif flags[0] == 1:
         if popularity:
           print('Making Range Query for popularity')
@@ -212,5 +230,4 @@ def search(phrase):
         for hit in resl:
             outputl.append([hit['_source']['name'],hit['_score']])
         res = outputl 
-    print(res)
     return res

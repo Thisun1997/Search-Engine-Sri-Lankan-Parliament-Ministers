@@ -54,6 +54,14 @@
 									<p><b>{{ i[0] }}</b></p>
 									<p class="bio">{{ i[1] }}</p>
 									<p class="score">{{ i[2] }}</p>
+								{% elif len > 3 %}
+									<p><b>{{ i[0] }}</b></p>
+									<p class="bio">තනතුර: {{ i[1] }}</p>
+									<p class="bio">පක්ෂය: {{ i[2] }}</p>
+									<p class="bio">දිස්ත්‍රික්කය: {{ i[3] }}</p>
+									<p class="bio">ඇමතුම්: {{ i[4] }}</p>
+									<p class="bio">විෂයයන්: {{ i[5] }}</p>
+									<p class="bio">චරිතාපදානය: {{ i[6] }}</p>
 								{% else %}
 									<p>{{ i }}</p>
 								{% endif %}

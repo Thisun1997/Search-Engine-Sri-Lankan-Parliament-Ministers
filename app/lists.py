@@ -291,11 +291,11 @@ names = [
     ]
 all_lists = [positions, parties, districts, related_subjects]
 
-syn_rel_subjects = ["විෂයයන්", "පථයන්"]
+syn_rel_subjects = ["විෂයයන්", "පථයන්", "මාතෘකා"]
 syn_position = ["තනතුර", "ධුර", "ධුරය", "නිලය", "පදවිය", "තරාතිරම", "තානාන්තරය", "තැන"]
 syn_party = ["කණ්ඩායම", "පක්ෂය", "පාර්ශ්වය", "කණ්ඩායම"]
 syn_districts = ["දිස්ත්‍රික්කය","පළාත", "ප්‍රදේශය"]
-syn_contact = ["සම්බන්ධ", "දුරකථන" ,"අංකය"]
+syn_contact = ["සම්බන්ධ", "දුරකථන" ,"අංකය", "ඇමතුම්"]
 syn_participation = ["නියෝජනය", "සිටි", "සහභාගි", "වාර", " ගණන"]
 synonym_list = [syn_position, syn_party, syn_districts, syn_rel_subjects, syn_contact, syn_participation]
 

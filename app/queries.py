@@ -49,7 +49,7 @@ def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='and'):
 	}
 
 	q = json.dumps(q)
-	print(q)
+	
 	return q
 
 def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'],comp_op = None, operator ='or'):
@@ -104,10 +104,10 @@ def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'],c
         # "aggs":aggs
         }
 	q = json.dumps(q)
-	print(q)
+	
 	return q
 
-def exact_match(query, required_field, search_val=None):
+def exact_match(query, required_field=None, search_val=None):
     if search_val:
         q = {
             "size": 500,
@@ -120,16 +120,27 @@ def exact_match(query, required_field, search_val=None):
         }
     else:
         search_val = " ".join(calSimilarity(query))
-        q = {
-            "size": 500,
-            "explain": True,
-            "query": {
-                "match": {
-                    "name": search_val
-                }
-            },
-            "fields" : [required_field]
-        }
+        if required_field:
+        	q = {
+				"size": 500,
+				"explain": True,
+				"query": {
+					"match": {
+						"name": search_val
+					}
+				},
+				"fields" : [required_field]
+			}
+        else:
+        	q = {
+				"size": 500,
+				"explain": True,
+				"query": {
+					"match": {
+						"name": search_val
+					}
+				},
+			}
     q = json.dumps(q)
-    print(q)
+    
     return q
