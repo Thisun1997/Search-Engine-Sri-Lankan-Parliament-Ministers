@@ -17,7 +17,7 @@ Data of all 224 ministers required for indexing is scrapped from http://www.mant
 
 
 
-Corpus of data scrapped is available [here](/app/data/data.json). The crawler that was used to scrape the website is available here.
+Corpus of data scrapped is available [here](/app/data/data.json). The crawler that was used to scrape the website is available [here](https://github.com/Thisun1997/Web-Scraper).
 
 ## Indexing and Querying Techniques Used
  *1. Rule based intent classification*
