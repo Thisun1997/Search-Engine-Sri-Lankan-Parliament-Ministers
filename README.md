@@ -1,5 +1,8 @@
 # IR_project
 
+## Overview
+This repository contains the source code for a search engine developed to search for information about sri lankan parliament ministers. The search engine is built using ElasticSearch and Python.
+
 ## Structure of data
 Data of all 224 ministers required for indexing is scrapped from http://www.manthri.lk/si/politicians. Profile of a minister will be stored as a document. All data will be stored in Sinhala. Metadata stored in a document are as follows;
  1.	Name
