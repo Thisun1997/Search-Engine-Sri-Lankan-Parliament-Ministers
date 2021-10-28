@@ -224,10 +224,16 @@ def search(phrase):
     else:
         print('Making Faceted Query')
         query_body = queries.agg_multi_match_q(phrase, fields)
+        required_field = fields_ori[flags.index(5)-2]
         res = client.search(index=INDEX, body=query_body)
         resl = res['hits']['hits']
         outputl = []
         for hit in resl:
-            outputl.append([hit['_source']['name'],hit['_score']])
+            ansl = hit['_source'][required_field]
+            if isinstance(ansl,list):
+              out = " ; ".join(ansl)
+            else:
+              out = ansl
+            outputl.append([hit['_source']['name']+" - "+ str(out),hit['_score']])
         res = outputl 
     return res
