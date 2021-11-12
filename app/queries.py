@@ -154,3 +154,20 @@ def exact_match(query, required_field=None, search_val=None):
     q = json.dumps(q)
     
     return q
+
+def cross_q(query, fields):
+    q = {
+            "size": 500,
+            "explain": True,
+            "query": {
+                "multi_match": {
+                    "query": query,
+                    "fields": fields,
+                    "type": "cross_fields",
+                    "operator": "and"
+                }
+            },
+        }
+    q = json.dumps(q)
+
+    return q

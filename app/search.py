@@ -223,17 +223,31 @@ def search(phrase):
           res = outputl 
     else:
         print('Making Faceted Query')
-        query_body = queries.agg_multi_match_q(phrase, fields)
-        required_field = fields_ori[flags.index(5)-2]
-        res = client.search(index=INDEX, body=query_body)
-        resl = res['hits']['hits']
-        outputl = []
-        for hit in resl:
-            ansl = hit['_source'][required_field]
-            if isinstance(ansl,list):
-              out = " ; ".join(ansl)
-            else:
-              out = ansl
-            outputl.append([hit['_source']['name']+" - "+ str(out),hit['_score']])
-        res = outputl 
+        if flags.count(5) == 2:
+          fields = []
+          for i in range(len(flags)):
+            if flags[i] == 5:
+              fields.append(fields_ori[i-2])
+          query_body = queries.cross_q(phrase, fields)
+          print(query_body)
+          res = client.search(index=INDEX, body=query_body)
+          resl = res['hits']['hits']
+          outputl = []
+          for hit in resl:
+            outputl.append([hit['_source']['name'],hit['_score']])
+          res = outputl 
+        else:
+          query_body = queries.agg_multi_match_q(phrase, fields)
+          required_field = fields_ori[flags.index(5)-2]
+          res = client.search(index=INDEX, body=query_body)
+          resl = res['hits']['hits']
+          outputl = []
+          for hit in resl:
+              ansl = hit['_source'][required_field]
+              if isinstance(ansl,list):
+                out = " ; ".join(ansl)
+              else:
+                out = ansl
+              outputl.append([hit['_source']['name']+" - "+ str(out),hit['_score']])
+          res = outputl 
     return res
