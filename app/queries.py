@@ -2,17 +2,27 @@
 import json
 from helper import calSimilarity
 
-def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='and'):
-	q = {
-		"size": 500,
-		"explain": True,
-		"query": {
-			"multi_match": {
+def agg_multi_match_q(query, fields, operator ='and'):
+	if operator == 'or':
+		multi_match_q = {
+				"query": query,
+				"fields": fields,
+				"operator": operator,
+				"type": "best_fields",
+				"fuzziness" : "AUTO"
+			}
+	else:
+		multi_match_q = {
 				"query": query,
 				"fields": fields,
 				"operator": operator,
 				"type": "best_fields"
-			}
+			}		
+	q = {
+		"size": 500,
+		"explain": True,
+		"query": {
+			"multi_match": multi_match_q
 		},
 		"aggs": {
 			"Position Filter": {
@@ -39,7 +49,7 @@ def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='and'):
 					"size": 10
 				}
 			},
-      "Biography Filter": {
+      		"Biography Filter": {
 				"terms": {
 					"field": "biography.keyword",
 					"size": 10
@@ -52,7 +62,7 @@ def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='and'):
 	
 	return q
 
-def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'],comp_op = None, operator ='or'):
+def agg_multi_match_and_sort_q(sort_num,comp_op = None):
 	print ('sort num is ',sort_num)
 	aggs = {
 			"Position Filter": {
