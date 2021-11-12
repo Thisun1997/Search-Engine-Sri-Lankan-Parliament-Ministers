@@ -199,7 +199,7 @@ def search(phrase):
     elif flags[0] == 1:
         if popularity:
           print('Making Range Query for popularity')
-          query_body = queries.agg_multi_match_and_sort_q(phrase, num, fields)
+          query_body = queries.agg_multi_match_and_sort_q(num)
           res = client.search(index=INDEX, body=query_body)
           resl = res['hits']['hits']
           outputl = []
@@ -209,7 +209,7 @@ def search(phrase):
         elif participation:
           if op != "eql":
             print('Making Range Query for participation with '+op)
-            query_body = queries.agg_multi_match_and_sort_q(phrase, num, fields, op)
+            query_body = queries.agg_multi_match_and_sort_q(num, op)
             res = client.search(index=INDEX, body=query_body)
           else:
             print("exact match")
