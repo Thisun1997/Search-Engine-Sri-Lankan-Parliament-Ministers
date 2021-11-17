@@ -31,6 +31,12 @@ Eg: If there is a digit in the query, the user intention could be either to sear
 
 Eg: If the query contains terms like “තනතුර”, “ධුරය” etc. , “position” field is boosted.
 
+*3.	Tolerate simple spelling errors*
+<br>Use cosine similarity to detect correct terms for small spelling errors and retrieve the related search results relavent to corrected version.<br>
+
+Eg: චමල් රාජපක්ෂ මහතාගේ තනතුර and චමල රජපක්ෂ මහතාගේ තනතුර will generate same results
+
+
 ## Main Functionalities
 * Match queries – Search for an exact field of a certain minister. (Eg: චමල් රාජපක්ෂ මහතාගේ තනතුර)
 * Facetaed queries – Search on the fields position, party, district and related subjects. The query may contain one or two fields for searching. (Eg: සමගි ජන බලවේගය නියෝජනය කරන මන්ත්රීවරු, සමගි ජන බලවේගය නියෝජනය කරන කොළඹ මන්ත්රීවරු).
