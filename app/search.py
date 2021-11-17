@@ -46,7 +46,7 @@ def searchByName(tokens):
     for name in names:
       namel = name.split()
       for i in range(len(namel)):
-        if calSimilarity_words(token, namel[i], 0.8) and abs(len(token)-len(namel[i])) <= 1:
+        if calSimilarity_words(token, namel[i], 0.9) and abs(len(token)-len(namel[i])) <= 1: #changed the treshold
             tokens.append(namel[i])
             c = 1
   if c:
