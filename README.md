@@ -2,20 +2,22 @@
 
 ## Overview
 This repository contains the source code for a search engine developed to search for information about sri lankan parliament ministers. The search engine is built using ElasticSearch and Python.
+<br>
 Folder structre of the repository:
-`ES` - contains docker-compose.yml which need to be executed using docker to start the elastic cluster on port 9200
-`app` - files/folders related to backend and frontend
-- `data` - data scraped from the [website](http://www.manthri.lk/si/politicians)  
-- `static` - stylesheets related to frontend
-- `template` - html templates related to frontend
-- `app.py` - Backend of the web app created using Flask 
-- `data_upload.py` - Script to upload data to elastic cluster for indexing
-- `helper.py` - helper functions for cosine similarity calculation
-- `lists.py` - synonyms and other data utilised for similarity calculations used in query processing
-- `queries.py` - elasticsearch queries 
-- `search.py` - intent identification and query processing
-`queries.txt` - sample queries
-`requirements.txt` - package dependancies of the project
+<br>
+- `ES` - contains docker-compose.yml which need to be executed using docker to start the elastic cluster on port 920
+- `app` - files/folders related to backend and fronten
+  * `data` - data scraped from the [website](http://www.manthri.lk/si/politicians) 
+  * `static` - stylesheets related to fronten
+  * `template` - html templates related to fronten
+  * `app.py` - Backend of the web app created using Flask
+  * `data_upload.py` - Script to upload data to elastic cluster for indexin
+  * `helper.py` - helper functions for cosine similarity calculatio
+  * `lists.py` - synonyms and other data utilised for similarity calculations used in query processin
+  * `queries.py` - elasticsearch queries
+  * `search.py` - intent identification and query processing
+- `queries.txt` - sample queries
+- `requirements.txt` - package dependancies of the project
 
 ## Structure of data
 Data of all 224 ministers required for indexing is scrapped from http://www.manthri.lk/si/politicians. Profile of a minister will be stored as a document. All data will be stored in Sinhala. Metadata stored in a document are as follows;
