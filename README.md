@@ -2,6 +2,20 @@
 
 ## Overview
 This repository contains the source code for a search engine developed to search for information about sri lankan parliament ministers. The search engine is built using ElasticSearch and Python.
+Folder structre of the repository:
+`ES` - contains docker-compose.yml which need to be executed using docker to start the elastic cluster on port 9200
+`app` - files/folders related to backend and frontend
+- `data` - data scraped from the [website](http://www.manthri.lk/si/politicians)  
+- `static` - stylesheets related to frontend
+- `template` - html templates related to frontend
+- `app.py` - Backend of the web app created using Flask 
+- `data_upload.py` - Script to upload data to elastic cluster for indexing
+- `helper.py` - helper functions for cosine similarity calculation
+- `lists.py` - synonyms and other data utilised for similarity calculations used in query processing
+- `queries.py` - elasticsearch queries 
+- `search.py` - intent identification and query processing
+`queries.txt` - sample queries
+`requirements.txt` - package dependancies of the project
 
 ## Structure of data
 Data of all 224 ministers required for indexing is scrapped from http://www.manthri.lk/si/politicians. Profile of a minister will be stored as a document. All data will be stored in Sinhala. Metadata stored in a document are as follows;
@@ -34,7 +48,7 @@ Eg: If the query contains terms like “තනතුර”, “ධුරය” e
 *3.	Tolerate simple spelling errors*
 <br>Use cosine similarity to detect correct terms for small spelling errors and retrieve the related search results relavent to corrected version.<br>
 
-Eg: චමල් රාජපක්ෂ මහතාගේ තනතුර and චමල රජපක්ෂ මහතාගේ තනතුර will generate same results
+Eg: චමල් රාජපක්ෂ මහතාගේ තනතුර and චමල රාපක්ෂ මහතාගේ තනතුර will generate same results
 
 
 ## Main Functionalities
