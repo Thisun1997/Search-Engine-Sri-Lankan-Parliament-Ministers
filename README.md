@@ -5,15 +5,15 @@ This repository contains the source code for a search engine developed to search
 <br>
 Folder structre of the repository:
 <br>
-- `ES` - contains docker-compose.yml which need to be executed using docker to start the elastic cluster on port 920
-- `app` - files/folders related to backend and fronten
+- `ES` - contains docker-compose.yml which need to be executed using docker to start the elastic cluster on port 9200
+- `app` - files/folders related to backend and frontend
   * `data` - data scraped from the [website](http://www.manthri.lk/si/politicians) 
-  * `static` - stylesheets related to fronten
-  * `template` - html templates related to fronten
+  * `static` - stylesheets related to frontend
+  * `template` - html templates related to frontend
   * `app.py` - Backend of the web app created using Flask
-  * `data_upload.py` - Script to upload data to elastic cluster for indexin
-  * `helper.py` - helper functions for cosine similarity calculatio
-  * `lists.py` - synonyms and other data utilised for similarity calculations used in query processin
+  * `data_upload.py` - Script to upload data to elastic cluster for indexing
+  * `helper.py` - helper functions for cosine similarity calculation
+  * `lists.py` - synonyms and other data utilised for similarity calculations during query processing
   * `queries.py` - elasticsearch queries
   * `search.py` - intent identification and query processing
 - `queries.txt` - sample queries
