@@ -292,7 +292,7 @@ names = [
     ]
 all_lists = [positions, parties, districts, related_subjects]
 
-syn_rel_subjects = ["විෂයයන්", "පථයන්", "මාතෘකා"]
+syn_rel_subjects = ["විෂයයන්", "පථයන්", "මාතෘකා", "විශයන්"]
 syn_position = ["තනතුර", "ධුර", "ධුරය", "නිලය", "පදවිය", "තරාතිරම", "තානාන්තරය", "තැන"]
 syn_party = ["කණ්ඩායම", "පක්ෂය", "පාර්ශ්වය", "කණ්ඩායම","පක්ශය"]
 syn_districts = ["දිස්ත්‍රික්කය","පළාත", "ප්‍රදේශය"]
