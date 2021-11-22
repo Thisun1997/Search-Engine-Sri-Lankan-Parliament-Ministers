@@ -55,9 +55,9 @@ Eg: චමල් රාජපක්ෂ මහතාගේ තනතුර and �
 
 ## Main Functionalities
 * Match queries – Search for an exact field of a certain minister. (Eg: චමල් රාජපක්ෂ මහතාගේ තනතුර)
-* Facetaed queries – Search on the fields position, party, district and related subjects. The query may contain one or two fields for searching. (Eg: සමගි ජන බලවේගය නියෝජනය කරන මන්ත්රීවරු, සමගි ජන බලවේගය නියෝජනය කරන කොළඹ මන්ත්රීවරු).
-* Range queries – Searches with ranges on the fields overall_rank and participated_in_parliament. (Eg: හොඳම මන්ත්රීවරු 5 දෙනා , 6 වතාවකට වැඩිය පාර්ලිමේන්තුව නියෝජනය කළ මන්ත්රීවරු )
-* Synonyms support – Search phrases support synonyms of the keywords (Eg: using “තනතුර”, “ධුරය” etc. in a query related to the “position” field.
+* Facetaed queries – Search on the fields position, party, district and related subjects. The query may contain one or two fields for searching. (Eg: සමගි ජන බලවේගය නියෝජනය කරන මන්ත්රීවරු, සමගි ජන බලවේගය නියෝජනය කරන කොළඹ මන්ත්රීවරු)
+* Range queries – Searches with ranges on the fields overall_rank and participated_in_parliament. (Eg: හොඳම මන්ත්රීවරු 5 දෙනා , 6 වතාවකට වැඩිය පාර්ලිමේන්තුව නියෝජනය කළ මන්ත්රීවරු)
+* Synonyms support – Search phrases support synonyms of the keywords (Eg: using “තනතුර”, “ධුරය” etc. in a query related to the “position” field)
 <br>
 Following diagram shows the flow IR system utilizing rule based intent classification and boosting to support the above functionalities.<br>
 
