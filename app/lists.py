@@ -302,7 +302,7 @@ synonym_list = [syn_position, syn_party, syn_districts, syn_rel_subjects, syn_co
 
 fields_ori = ["position","party","district","related_subjects","contact_information","participated_in_parliament"]
 
-syn_popularity=['හොඳම','ජනප්‍රිය','ප්‍රචලිත','ප්‍රසිද්ධ','හොදම','ජනප්‍රියම']
+syn_popularity=['හොඳම','ජනප්‍රිය','ප්‍රචලිත','ප්‍රසිද්ධ','හොදම','ජනප්‍රියම','ජනප්රිය']
 gte = ["වැඩි","වැඩිය","වැඩිපුර","වැඩියෙන්"]
 lte = ["අඩුවෙන්","අඩු"]
 times = ["වරක්","වතාවක්","පාරක්","පාරකට","වතාවක","වරක","පාරක","වාරගනනක්"] + gte + lte
